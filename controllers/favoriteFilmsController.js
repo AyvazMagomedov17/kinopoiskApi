@@ -16,9 +16,13 @@ class FavoriteFilmsController {
                 const body = req.body;
                 // @ts-ignore
                 const id = req.user.id;
+                const candidate = yield Models.FavoriteFilmS.findOne({ where: { kinopoiskId: Number(body.kinopoiskId) } });
+                if (candidate) {
+                    next(ApiError.badRequest('Фильм уже находится в избранных'));
+                }
                 const film = yield Models.FavoriteFilmS.create(Object.assign(Object.assign({}, body), { userId: Number(id) }));
                 return res.json({
-                    item: film
+                    film
                 });
             }
             catch (error) {
@@ -29,19 +33,71 @@ class FavoriteFilmsController {
     getFilms(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const page = Number(req.query.page) || 1;
+                const type = req.query.type;
+                const limit = 20;
+                const offset = page * limit - limit;
                 // @ts-ignore
                 const id = req.user.id;
-                const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id) }, });
-                if (!count) {
-                    return next(ApiError.badRequest('Избранные фильмы не найдены'));
+                if (type) {
+                    const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id), type }, limit, offset });
+                    return res.json({
+                        count,
+                        items: rows
+                    });
+                }
+                else {
+                    const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id) }, limit, offset });
+                    return res.json({
+                        count,
+                        items: rows
+                    });
+                }
+            }
+            catch (error) {
+                return next(ApiError.forbidden(error.message));
+            }
+        });
+    }
+    getOne(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const kinopoiskId = req.params.kinopoiskId;
+                // @ts-ignore
+                const id = req.user.id;
+                const film = yield Models.FavoriteFilmS.findOne({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
+                if (!film) {
+                    return res.json({
+                        item: null
+                    });
                 }
                 return res.json({
-                    count,
-                    items: rows
+                    item: film
                 });
             }
             catch (error) {
-                next(ApiError.forbidden(error.message));
+                return next(ApiError.forbidden(error.message));
+            }
+        });
+    }
+    deleteFilm(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const kinopoiskId = req.params.kinopoiskId;
+                // @ts-ignore
+                const id = req.user.id;
+                const film = yield Models.FavoriteFilmS.findOne({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
+                if (!film) {
+                    next(ApiError.badRequest('Фильм не найден'));
+                }
+                yield Models.FavoriteFilmS.destroy({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
+                return res.json({
+                    isDeleted: true,
+                    item: film
+                });
+            }
+            catch (error) {
+                return next(ApiError.forbidden(error.message));
             }
         });
     }
