@@ -41,15 +41,19 @@ class FavoriteFilmsController {
                 const id = req.user.id;
                 if (type) {
                     const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id), type }, limit, offset });
+                    const totalPages = Math.ceil(count / limit);
                     return res.json({
                         count,
+                        totalPages,
                         items: rows
                     });
                 }
                 else {
                     const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id) }, limit, offset });
+                    const totalPages = Math.ceil(count / limit);
                     return res.json({
                         count,
+                        totalPages,
                         items: rows
                     });
                 }
