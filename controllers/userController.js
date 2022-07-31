@@ -217,10 +217,10 @@ class UserController {
                 const { img } = req.files;
                 const fileName = v4() + '.jpg';
                 const userBefore = yield Models.User.findByPk(Number(id));
-                const avatarBefore = userBefore.get().avatar.slice(process.env.URL.length);
+                const avatarBefore = userBefore.get().avatar;
                 if (avatarBefore) {
                     console.log('AVATAR', avatarBefore);
-                    const filePathToAvtarBefore = path.resolve(__dirname, '..', 'static', avatarBefore);
+                    const filePathToAvtarBefore = path.resolve(__dirname, '..', 'static', avatarBefore.slice(process.env.URL.length));
                     fs.unlink(filePathToAvtarBefore, (error) => {
                         if (error) {
                             console.log(error);
