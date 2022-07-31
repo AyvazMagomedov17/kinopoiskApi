@@ -220,7 +220,7 @@ class UserController {
                 const avatarBefore = userBefore.get().avatar;
                 if (avatarBefore) {
                     console.log('AVATAR', avatarBefore);
-                    const filePathToAvtarBefore = path.resolve(__dirname, '..', 'static', avatarBefore.slice(process.env.URL.length));
+                    const filePathToAvtarBefore = path.resolve(__dirname, '..', 'app/static', avatarBefore.slice(process.env.URL.length));
                     fs.unlink(filePathToAvtarBefore, (error) => {
                         if (error) {
                             console.log(error);
