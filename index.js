@@ -10,16 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import express from 'express';
 import cors from 'cors';
 const app = express();
+import { fileURLToPath } from 'url';
 import router from './routes/index.js';
 import Sequelize from './db/db.js';
 import ErorrMiddleware from './middlewares/ErrorHandlingMiddleware.js';
 import { config } from 'dotenv';
+import path from 'path';
+import fileUpload from 'express-fileupload';
 config();
 app.use(cors());
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.json());
-app.get('/', (req, res) => {
-    res.json({ message: 'asa' });
-});
+app.use(fileUpload({}));
+app.use(express.static(path.resolve(__dirname, 'static')));
 app.use('/api', router);
 app.use(ErorrMiddleware);
 const PORT = process.env.PORT || 5000;

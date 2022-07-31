@@ -9,5 +9,9 @@ router.post('/registration', [
 ], userController.createUser);
 router.post('/login', userController.login);
 router.get('/auth', authMiddleware, userController.auth);
+router.get('/getUser/:id', userController.findOne);
+router.get('/get', userController.getUsers);
+router.put('/updateInfo', authMiddleware, userController.updateInfo);
+router.put('/updateAvatar', authMiddleware, userController.updateAvatar);
 export default router;
 //# sourceMappingURL=userRoutes.js.map

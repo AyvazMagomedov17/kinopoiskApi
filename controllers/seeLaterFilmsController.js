@@ -9,18 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import Models from '../models/models.js';
 import ApiError from "../Error/Error.js";
-class FavoriteFilmsController {
+class SeeLaterFilmsController {
     addFilm(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
                 // @ts-ignore
                 const id = req.user.id;
-                const candidate = yield Models.FavoriteFilmS.findOne({ where: { kinopoiskId: Number(body.kinopoiskId) } });
+                const candidate = yield Models.SeeLaterFilms.findOne({ where: { kinopoiskId: Number(body.kinopoiskId) } });
                 if (candidate) {
-                    return next(ApiError.badRequest('Фильм уже находится в избранных'));
+                    next(ApiError.badRequest('Фильм уже находится в избранных'));
                 }
-                const film = yield Models.FavoriteFilmS.create(Object.assign(Object.assign({}, body), { userId: Number(id) }));
+                const film = yield Models.SeeLaterFilms.create(Object.assign(Object.assign({}, body), { userId: Number(id) }));
                 return res.json({
                     film
                 });
@@ -34,29 +34,27 @@ class FavoriteFilmsController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const page = Number(req.query.page) || 1;
-                const { type, id } = req.query;
+                const type = req.query.type;
                 const limit = 20;
                 const offset = page * limit - limit;
                 // @ts-ignore
-                if (!id) {
-                    next(ApiError.badRequest('Не указали id'));
-                }
+                const id = req.query.id;
                 if (type) {
-                    const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id), type }, limit, offset });
-                    const totalPages = Math.ceil(count / limit);
-                    return res.json({
-                        count,
-                        totalPages,
-                        items: rows
-                    });
-                }
-                else {
-                    const { count, rows } = yield Models.FavoriteFilmS.findAndCountAll({ where: { userId: Number(id) }, limit, offset });
+                    const { count, rows } = yield Models.SeeLaterFilms.findAndCountAll({ where: { userId: Number(id), type }, limit, offset });
                     const totalPages = Math.ceil(count / limit);
                     return res.json({
                         count,
                         totalPages,
                         items: rows.reverse()
+                    });
+                }
+                else {
+                    const { count, rows } = yield Models.SeeLaterFilms.findAndCountAll({ where: { userId: Number(id) }, limit, offset });
+                    const totalPages = Math.ceil(count / limit);
+                    return res.json({
+                        count,
+                        totalPages,
+                        items: rows
                     });
                 }
             }
@@ -71,7 +69,7 @@ class FavoriteFilmsController {
                 const kinopoiskId = req.params.kinopoiskId;
                 // @ts-ignore
                 const id = req.user.id;
-                const film = yield Models.FavoriteFilmS.findOne({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
+                const film = yield Models.SeeLaterFilms.findOne({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
                 if (!film) {
                     return res.json({
                         item: null
@@ -92,11 +90,11 @@ class FavoriteFilmsController {
                 const kinopoiskId = req.params.kinopoiskId;
                 // @ts-ignore
                 const id = req.user.id;
-                const film = yield Models.FavoriteFilmS.findOne({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
+                const film = yield Models.SeeLaterFilms.findOne({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
                 if (!film) {
                     next(ApiError.badRequest('Фильм не найден'));
                 }
-                yield Models.FavoriteFilmS.destroy({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
+                yield Models.SeeLaterFilms.destroy({ where: { userId: Number(id), kinopoiskId: Number(kinopoiskId) } });
                 return res.json({
                     isDeleted: true,
                     item: film
@@ -108,5 +106,5 @@ class FavoriteFilmsController {
         });
     }
 }
-export default new FavoriteFilmsController();
-//# sourceMappingURL=favoriteFilmsController.js.map
+export default new SeeLaterFilmsController();
+//# sourceMappingURL=seeLaterFilmsController.js.map
