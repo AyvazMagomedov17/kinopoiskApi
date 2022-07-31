@@ -108,7 +108,7 @@ const Friends = sequelize.define('friends', {
     status: { type: DataTypes.STRING, allowNull: true },
     avatar: { type: DataTypes.TEXT, allowNull: true }
 });
-User.hasMany(FavoriteFilmS);
+User.hasMany(FavoriteFilmS)
 FavoriteFilmS.belongsTo(User);
 User.hasMany(SeeLaterFilms);
 SeeLaterFilms.belongsTo(User);
