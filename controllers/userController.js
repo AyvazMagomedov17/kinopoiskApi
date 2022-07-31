@@ -55,7 +55,7 @@ class UserController {
                         email: user.email,
                         name: user.name,
                         status: user.status,
-                        avatar: user.avatar
+                        avatar: process.env.URL + user.avatar
                     }
                 });
             }
@@ -84,7 +84,7 @@ class UserController {
                         name: user.name,
                         email: user.email,
                         status: user.status,
-                        avatar: user.avatar
+                        avatar: process.env.URL + user.avatar
                     }
                 });
             }
@@ -105,7 +105,7 @@ class UserController {
                         name: user.name,
                         email: user.email,
                         status: user.status,
-                        avatar: user.avatar
+                        avatar: process.env.URL + user.avatar
                     }
                 });
             }
@@ -133,7 +133,7 @@ class UserController {
                         name: user.name,
                         email: user.email,
                         status: user.status,
-                        avatar: user.avatar
+                        avatar: process.env.URL + user.avatar
                     }
                 });
             }
@@ -215,7 +215,6 @@ class UserController {
                 // @ts-ignore
                 const id = req.user.id;
                 const { img } = req.files;
-                const lengt = process.env.URL.length;
                 const fileName = v4() + '.jpg';
                 const userBefore = yield Models.User.findByPk(Number(id));
                 const avatarBefore = userBefore.get().avatar.slice(process.env.URL.length);
@@ -230,7 +229,7 @@ class UserController {
                 }
                 // @ts-ignore
                 yield img.mv(path.resolve(__dirname, '..', 'static', fileName));
-                const user = yield Models.User.update({ avatar: process.env.URL + fileName }, { where: { id: Number(id) } });
+                const user = yield Models.User.update({ avatar: fileName }, { where: { id: Number(id) } });
                 return res.json({
                     avatar: process.env.URL + fileName
                 });
