@@ -228,7 +228,7 @@ class UserController {
                     });
                 }
                 // @ts-ignore
-                yield img.mv(path.resolve(__dirname, '..', 'static', fileName));
+                yield img.mv(path.resolve(__dirname, '..', 'app/static', fileName));
                 const user = yield Models.User.update({ avatar: fileName }, { where: { id: Number(id) } });
                 return res.json({
                     avatar: process.env.URL + fileName
