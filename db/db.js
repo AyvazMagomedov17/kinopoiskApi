@@ -1,7 +1,7 @@
-import { Sequelize } from "sequelize";
-import { config } from 'dotenv';
+const { Sequelize } = require('sequelize')
+const { config } = require('dotenv')
 config();
-export default new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+module.exports = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     dialect: 'postgres',
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),

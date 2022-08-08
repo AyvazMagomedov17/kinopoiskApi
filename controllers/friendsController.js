@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import Models from '../models/models.js';
-import ApiError from "../Error/Error.js";
+const ApiError = require('../Error/Error.js')
+const Models = require('../models/models.js')
 class FriendsController {
     getFriends(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -75,5 +75,5 @@ class FriendsController {
         });
     }
 }
-export default new FriendsController();
+module.exports = new FriendsController();
 //# sourceMappingURL=friendsController.js.map

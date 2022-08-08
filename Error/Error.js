@@ -14,5 +14,5 @@ class ApiError extends Error {
         return new ApiError(403, message);
     }
 }
-export default ApiError;
+module.exports = ApiError;
 //# sourceMappingURL=Error.js.map

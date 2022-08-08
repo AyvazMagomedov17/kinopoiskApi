@@ -1,7 +1,8 @@
-import { Router } from "express";
-import { check } from "express-validator";
-import authMiddleware from "../middlewares/authMiddleware.js";
-import userController from "../controllers/userController.js";
+
+const { Router } = require('express')
+const { check } = require('express-validator')
+const authMiddleware = require('../middlewares/authMiddleware.js')
+const userController = require('../controllers/userController.js')
 const router = Router();
 router.post('/registration', [
     check('email', 'Неправильный email').isEmail(),
@@ -13,5 +14,5 @@ router.get('/getUser/:id', userController.findOne);
 router.get('/get', userController.getUsers);
 router.put('/updateInfo', authMiddleware, userController.updateInfo);
 router.put('/updateAvatar', authMiddleware, userController.updateAvatar);
-export default router;
+module.exports = router;
 //# sourceMappingURL=userRoutes.js.map

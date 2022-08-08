@@ -7,19 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import express from 'express';
-import cors from 'cors';
-const app = express();
-import { fileURLToPath } from 'url';
-import router from './routes/index.js';
-import Sequelize from './db/db.js';
-import ErorrMiddleware from './middlewares/ErrorHandlingMiddleware.js';
-import { config } from 'dotenv';
-import path from 'path';
-import fileUpload from 'express-fileupload';
+
+const express = require('express')
+const cors = require('cors')
+const router = require('./routes/index.js')
+const Sequelize = require('./db/db.js')
+const ErorrMiddleware = require('./middlewares/ErrorHandlingMiddleware.js')
+const { config } = require('dotenv')
+const path = require('path')
+const fileUpload = require('express-fileupload')
 config();
+
+const app = express();
 app.use(cors());
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 app.use(express.json());
 app.use(fileUpload({}));
 app.use(express.static(path.resolve(__dirname, 'static')));

@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import Models from '../models/models.js';
-import ApiError from "../Error/Error.js";
+const ApiError = require('../Error/Error.js')
+const Models = require('../models/models.js')
 class SeeLaterFilmsController {
     addFilm(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -106,5 +106,5 @@ class SeeLaterFilmsController {
         });
     }
 }
-export default new SeeLaterFilmsController();
+module.exports = new SeeLaterFilmsController();
 //# sourceMappingURL=seeLaterFilmsController.js.map

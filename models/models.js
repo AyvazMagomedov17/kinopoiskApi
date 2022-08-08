@@ -1,5 +1,5 @@
-import sequelize from '../db/db.js';
-import { DataTypes } from 'sequelize';
+const sequelize = require('../db/db.js')
+const { DataTypes } = require('sequelize')
 const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     email: { type: DataTypes.STRING, unique: true },
@@ -115,5 +115,5 @@ SeeLaterFilms.belongsTo(User);
 User.hasMany(Friends);
 Friends.belongsTo(User);
 const Models = { User, FavoriteFilmS, SeeLaterFilms, Friends };
-export default Models;
+module.exports = Models;
 //# sourceMappingURL=models.js.map

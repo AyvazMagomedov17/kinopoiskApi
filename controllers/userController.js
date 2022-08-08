@@ -7,23 +7,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import jwt from 'jsonwebtoken';
-import ApiError from "../Error/Error.js";
-import { validationResult } from 'express-validator';
-import Models from '../models/models.js';
-import bcrypt from 'bcrypt';
-import { Sequelize } from "sequelize";
-import { v4 } from 'uuid';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
-import { config } from 'dotenv';
+const jwt = require('jsonwebtoken')
+const ApiError = require('../Error/Error.js')
+const { validationResult } = require('express-validator')
+const Models = require('../models/models.js')
+const bcrypt = require('bcrypt')
+const { Sequelize } = require('sequelize')
+const { v4 } = require('uuid')
+const fs = require('fs')
+const { config } = require('dotenv')
 config();
-import path from 'path';
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const path = require('path')
+
 const generateJwt = (id, email) => {
     return jwt.sign({ id, email }, // вшивается в середину вебтокена
-    process.env.SECRET_KEY, // секрет ключ
-    { expiresIn: '24h' }); // сколько будет жить ключ
+        process.env.SECRET_KEY, // секрет ключ
+        { expiresIn: '24h' }); // сколько будет жить ключ
 };
 class UserController {
     createUser(req, res, next) {
@@ -240,5 +239,5 @@ class UserController {
         });
     }
 }
-export default new UserController();
+module.exports = new UserController();
 //# sourceMappingURL=userController.js.map

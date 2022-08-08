@@ -1,9 +1,10 @@
-import { Router } from "express";
-import friendsController from "../controllers/friendsController.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
+
+const { Router } = require('express')
+const authMiddleware = require('../middlewares/authMiddleware.js')
+const friendsController = require('../controllers/friendsController.js')
 const router = Router();
 router.get('/get', friendsController.getFriends);
 router.post('/add', authMiddleware, friendsController.addFriend);
 router.delete('/delete/:friendId', authMiddleware, friendsController.deleteFriend);
-export default router;
+module.exports = router;
 //# sourceMappingURL=friendsRouter.js.map
